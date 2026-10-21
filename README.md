@@ -1,70 +1,59 @@
 # 🕹️ Transcendence
 
-**Transcendence** is a fullstack project for 42 school made by a team of 3 👥: [Eric](https://github.com/erdelp), [Matthieu](https://github.com/matthieugalvez) and myself. It's a **web app** that allows users to play the game *Pong* in real time with statistics, tournament mode, AI bot and much more!
+Real-time multiplayer **Pong** web app, built as the final common-core project
+of 42 Paris by a team of 3: [Eric](https://github.com/erdelp),
+[Matthieu](https://github.com/matthieugalvez) and myself.
 
-## 🌟 Project's objectives
+![demo](/demo/42pong.gif)
 
-- Develop a single-page application to play Pong online.
-- Implement a complete user management system (signing in, profils, friendslist...).
-- Offer a fluid and responsive interface, optimized for user experience.
-- Maintain the security (XSS, SQLi, HTTPS...) and the robustness of the application.
+## ✨ Features
 
-## ⚙️ Technical stack
+- **Online matches in real time** over WebSockets, with the game state computed on the server
+- **Tournament mode** and game invitations between friends
+- **Accounts and security**: email/password (bcrypt), Google sign-in (OAuth 2.0),
+  two-factor authentication (TOTP + QR code), JWT access and refresh tokens in cookies
+- **Social**: friends list, private chat, user profiles and avatars
+- **Statistics dashboard** with interactive charts (Chart.js)
+- **3 languages**: English, French, Spanish
+- **Hardening**: input validation with Zod, Helmet security headers, protection
+  against XSS and SQL injection, HTTPS through Nginx
 
-- **Front-end:** TypeScript, Vite, Tailwind CSS  
-- **Back-end:** Node.js with Fastify  
-- **API:** Route development and protection for client-server interaction  
-- **Database:** SQLite  
-- **Infrastructure:** Docker (deployment with a single `docker-compose`)
+## ⚙️ Tech stack
 
-## 👥 My role
+| | |
+|---|---|
+| **Front-end** | TypeScript single-page app (no framework, custom router), Vite, Tailwind CSS |
+| **Back-end** | Node.js, Fastify, WebSockets |
+| **Database** | SQLite with Prisma ORM |
+| **Infrastructure** | Docker Compose, Nginx (reverse proxy, TLS) |
 
-I worked on:
-- the **front-end**: interface design, integration, UI component management, compliance with SPA constraints.
-- the **back-end**: creation and securing of API routes, server logic, sockets management for real-time gaming.
-- the **game**: conception of game logic, canva design, creation of tournament mode.
+## 👩‍💻 My role
+
+- **Game**: game logic, canvas rendering, real-time sync over WebSockets, tournament mode
+- **Back-end**: API routes and their protection, server-side game logic, socket management
+- **Front-end**: interface design and integration, UI components, single-page app navigation
 
 ## 📝 What I learned
 
-- Construction of a **fullstack architecture** using modern technologies.
-- Implementation of a secure, high-performance **API**.
-- Teamwork on a long-term project: versioning management (Git), code reviews, planning.
-- Optimization of a SPA (Single-Page Application) for a seamless experience.
+- Designing a full stack architecture from scratch, without a front-end framework
+- Keeping a real-time game in sync between players with an authoritative server
+- Securing an API end to end: authentication, tokens, 2FA, input validation
+- Working as a team on a long project: Git workflow, code reviews, planning
 
-## 🚀 Démo   
+## 📸 Screenshots
 
-**Screenshots:**   
-![index-page](/demo/indexpage.png)   
+![index page](/demo/indexpage.png)
+![home page](/demo/homepage.png)
 
-![home-page](/demo/homepage.png)   
+## 🚀 Run it locally
 
-**Demo video:**   
-![demo-gif](/demo/42pong.gif)   
+Requirements: Docker, and Node.js 18+ for the development mode.
 
-
-## 👾 How to try it?
-
-You need to update *NODE* on your session before running:
-
-```
-# Download and install nvm:
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-
-# in lieu of restarting the shell
-\. "$HOME/.nvm/nvm.sh"
-
-# Download and install Node.js:
-nvm install 24
-
-# Verify the Node.js version:
-node -v # Should print "v24.1.0".
-nvm current # Should print "v24.1.0".
-
-# Verify npm version:
-npm -v # Should print "11.3.0".
+```sh
+cp .env.example .env     # then fill in the secrets
+npm run generate:jwt     # generates AUTH_SECRET and AUTH_REFRESH_SECRET
+make build-dev           # starts the app
 ```
 
-Then you can just `make build-dev` to launch the application. You will be able to access our site by copying `http://localhost:5173` in *Firefox* or *Chrome*.   
-Once you are done you can `make clean-docker` to exit cleanly.   
-
-🎮 ENJOY !
+Then open `http://localhost:5173` in Firefox or Chrome.
+`make clean-docker` stops everything and cleans up.
